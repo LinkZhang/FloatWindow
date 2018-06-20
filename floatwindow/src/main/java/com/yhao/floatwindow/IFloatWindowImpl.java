@@ -224,12 +224,28 @@ public class IFloatWindowImpl extends IFloatWindow {
                                         int endX = (startX * 2 + v.getWidth() > Util.getScreenWidth(mB.mApplicationContext)) ?
                                                 Util.getScreenWidth(mB.mApplicationContext) - v.getWidth() - mB.mSlideRightMargin :
                                                 mB.mSlideLeftMargin;
-                                        mAnimator = ObjectAnimator.ofInt(startX, endX);
+                                        int startY = mFloatView.getY();
+                                        int endY = startY;
+                                        if (mFloatView.getY() < 0){
+                                            endY = mB.mSlideTopMargin;
+                                        }
+
+                                        if (mFloatView.getY()+v.getHeight() > Util.getScreenHeight(mB
+                                                .mApplicationContext)){
+                                            endY = Util.getScreenHeight(mB.mApplicationContext)-mB
+                                                    .mSlideBottomMargin-v.getHeight();
+                                        }
+                                        PropertyValuesHolder pvX = PropertyValuesHolder.ofInt
+                                                ("x", startX, endX);
+                                        PropertyValuesHolder pvY = PropertyValuesHolder.ofInt
+                                                ("y", mFloatView.getY(), endY);
+                                        mAnimator = ObjectAnimator.ofPropertyValuesHolder(pvX, pvY);
                                         mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                                             @Override
                                             public void onAnimationUpdate(ValueAnimator animation) {
-                                                int x = (int) animation.getAnimatedValue();
-                                                mFloatView.updateX(x);
+                                                int x = (int) animation.getAnimatedValue("x");
+                                                int y = (int) animation.getAnimatedValue("y");
+                                                mFloatView.updateXY(x,y);
                                                 if (mB.mViewStateListener != null) {
                                                     mB.mViewStateListener.onPositionUpdate(x, (int) upY);
                                                 }
