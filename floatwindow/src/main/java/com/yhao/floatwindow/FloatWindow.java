@@ -219,19 +219,19 @@ public class FloatWindow {
             if (mView == null) {
                 mView = Util.inflate(mApplicationContext, mLayoutId);
             }
-            if (xOffset <0){
+            if (xOffset <= 0){
                 xOffset = mSlideLeftMargin;
             }
-            if (xOffset+mWidth>Util.getScreenWidth(mApplicationContext)){
+            if (xOffset + mWidth >= Util.getScreenWidth(mApplicationContext)){
                 xOffset = Util.getScreenWidth(mApplicationContext)-mSlideRightMargin-mWidth;
             }
 
 
-            if (yOffset <0){
+            if (yOffset <= 0){
                 yOffset = mSlideTopMargin;
             }
 
-            if (yOffset+mHeight >Util.getScreenHeight(mApplicationContext)){
+            if (yOffset+mHeight >= Util.getScreenHeight(mApplicationContext)){
                 yOffset = Util.getScreenHeight(mApplicationContext)-mHeight-mSlideBottomMargin;
             }
             IFloatWindow floatWindowImpl = new IFloatWindowImpl(this);
