@@ -118,7 +118,9 @@ class FloatPhone extends FloatView {
     @Override
     public void dismiss() {
         isRemove = true;
-        mWindowManager.removeView(mView);
+        if (mView.isAttachedToWindow()) {
+            mWindowManager.removeView(mView);
+        }
     }
 
     @Override
